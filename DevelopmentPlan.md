@@ -99,3 +99,89 @@ Also think of video elements such as transitions, text effects etc. and how to s
 ## Libraries/Frameworks
 Django for API Dev
 PyMongo for connection with MongoDB
+
+## Best Practices
+Designing API endpoints effectively is critical to ensure that your API is user-friendly, scalable, and maintainable. Here are the best practices for designing API endpoints:
+
+1. Use RESTful Principles
+Design endpoints to follow RESTful conventions where resources are represented as nouns and HTTP methods indicate the action. Example:
+GET /users → Fetch all users
+POST /users → Create a new user
+GET /users/{id} → Fetch a specific user
+PUT /users/{id} → Update a specific user
+DELETE /users/{id} → Delete a specific user
+2. Use Descriptive and Consistent Naming
+Use meaningful, consistent, and plural nouns for resource names. Example:
+Prefer /products over /productList or /getProducts
+Avoid using verbs in endpoints; actions are indicated by HTTP methods.
+3. Support Filtering, Sorting, and Pagination
+Use query parameters for optional features like filtering, sorting, and pagination. Example:
+GET /products?category=electronics (Filtering)
+GET /products?sort=price&order=asc (Sorting)
+GET /products?page=2&limit=10 (Pagination)
+4. Maintain Versioning
+Include versioning in your API endpoints to avoid breaking changes for existing clients. Example:
+GET /v1/users
+Prefer versioning in the URL (/v1/) rather than headers for simplicity.
+5. Use HTTP Status Codes Appropriately
+Ensure your API returns standard HTTP status codes:
+200 OK → Successful GET/PUT/DELETE
+201 Created → Successful POST
+400 Bad Request → Invalid input
+401 Unauthorized → Authentication failure
+403 Forbidden → Authorization failure
+404 Not Found → Resource not found
+500 Internal Server Error → Server-side error
+6. Enable JSON as the Default Format
+Use JSON as the standard response format as it is widely accepted and lightweight.
+Include the appropriate Content-Type header: application/json.
+7. Design Responses with Clarity
+Ensure responses are predictable and easy to parse. Example:
+json
+Copy code
+{
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  },
+  "meta": {
+    "timestamp": "2025-01-15T10:00:00Z"
+  }
+}
+8. Implement Proper Authentication and Authorization
+Use token-based authentication (e.g., JWT, OAuth 2.0) to secure the API.
+Ensure sensitive endpoints are protected, and only authorized users can access them.
+9. Handle Errors Gracefully
+Provide meaningful error messages with proper codes. Example:
+json
+Copy code
+{
+  "error": {
+    "code": 400,
+    "message": "Invalid input. 'email' is required."
+  }
+}
+10. Avoid Overfetching and Underfetching
+Use resource nesting for hierarchical data but avoid deeply nested endpoints. Example:
+GET /users/{userId}/orders (Good)
+Avoid: GET /users/{userId}/orders/{orderId}/items/{itemId}
+Consider implementing GraphQL if your clients require complex queries.
+11. Use Idempotency for Non-GET Methods
+Ensure PUT and DELETE methods are idempotent, meaning the result is the same no matter how many times they are called.
+12. Rate Limiting and Throttling
+Protect your API from abuse by implementing rate limiting and throttling.
+Example: Allow only 100 requests per minute per user.
+13. Document Your API
+Provide comprehensive and clear API documentation using tools like:
+Swagger/OpenAPI
+Postman
+Include endpoint details, request/response examples, and error codes.
+14. Allow for CORS
+Enable Cross-Origin Resource Sharing (CORS) for client-side apps that may call your API from different origins.
+15. Optimize Performance
+Use caching (e.g., HTTP caching or Redis) to reduce server load.
+Minimize database queries with optimized queries or query batching.
+16. Monitor and Log API Usage
+Implement logging and monitoring to capture request details, errors, and performance metrics.
+By following these practices, your API will be easier to use, maintain, and scale, while providing a better experience for developers and end-users.
