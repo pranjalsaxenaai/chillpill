@@ -185,3 +185,5 @@ Minimize database queries with optimized queries or query batching.
 16. Monitor and Log API Usage
 Implement logging and monitoring to capture request details, errors, and performance metrics.
 By following these practices, your API will be easier to use, maintain, and scale, while providing a better experience for developers and end-users.
+
+## v1 Endpoints
