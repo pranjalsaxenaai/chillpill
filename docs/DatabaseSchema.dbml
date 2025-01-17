@@ -1,0 +1,75 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table entity_sysdata {
+  id integer [primary key]
+  created_at timestamp
+  modified_at timestamp
+  is_deleted bool
+}
+
+Table roles {
+  id integer [primary key]
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table users {
+  id integer [primary key]
+  username varchar
+  role_id integer [ref: > roles.id]
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table permissions {
+  id integer [primary key]
+  name varchar 
+  description varchar [note: 'Describes permission\'s scope']
+  role_id integer [ref: > roles.id]
+  status varchar
+  sysdata_id integer [ref: > entity_sysdata.id]
+
+}
+
+Table projects{
+  id integer [primary key]
+  user_id int [ref: > users.id]
+  description varchar [note: 'Any short user-defined description of the project']
+  title varchar
+  script_id int [ref: > scripts.id]
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table scripts{
+  id integer [pk]
+  content varchar
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table scenes{
+  id integer [pk]
+  script_id int [ref: > scripts.id]
+  content varchar
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table frames{
+  id integer [pk]
+  scene_id int [ref: > scenes.id]
+  image_prompt varchar
+  voiceover_id int 
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table images{
+  id int [pk]
+  frame_id int [ref: > frames.id]
+  blob_url url
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
+Table voiceovers{
+  id int [pk]
+  frame_id int [ref: > frames.id]
+  sysdata_id integer [ref: > entity_sysdata.id]
+}
+
