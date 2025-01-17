@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+from mongoengine import connect
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +26,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-r+a&*w3+=s(41hpps$(zn!-+b&ysu6!wv8#3q9!4yfjv-n)l!5"
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+DB_CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+connect(
+    host = DB_CONNECTION_STRING
+)
 
 # Application definition
 
@@ -37,6 +48,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "projects",
+    "users",
 ]
 
 MIDDLEWARE = [
