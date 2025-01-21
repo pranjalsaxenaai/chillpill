@@ -52,7 +52,7 @@ Table scenes{
   sysdata_id integer [ref: > entity_sysdata.id]
 }
 
-Table frames{
+Table shots{
   id integer [pk]
   scene_id int [ref: > scenes.id]
   image_prompt varchar
@@ -62,14 +62,14 @@ Table frames{
 
 Table images{
   id int [pk]
-  frame_id int [ref: > frames.id]
+  shot_id int [ref: > shots.id]
   blob_url url
   sysdata_id integer [ref: > entity_sysdata.id]
 }
 
 Table voiceovers{
   id int [pk]
-  frame_id int [ref: > frames.id]
+  shot_id int [ref: > shots.id]
   sysdata_id integer [ref: > entity_sysdata.id]
 }
 
