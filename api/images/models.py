@@ -1,7 +1,8 @@
-from mongoengine import EmbeddedDocument, fields
+from mongoengine import Document, fields
 
 # mongoengine model for the Image
-class Image(EmbeddedDocument):
+class Image(Document):
+    image_prompt_id = fields.StringField(required=True)
     blob_url = fields.StringField(required=True)
     created_at = fields.DateTimeField()
     updated_at = fields.DateTimeField()

@@ -2,17 +2,19 @@ import datetime
 import json
 from projects.models import Project
 
+# Get a project by its ID
 def get_project(project_id):
     userProject = Project.objects(id=project_id, is_deleted__ne=True).first()
     return json.loads(userProject.to_json()) if userProject else None
 
+# List all projects of a user
 def list_projects(user_id):
     userProjects = (
         Project.objects(user_id=user_id, is_deleted__ne=True)
-        .only('id', 'project_title', 'project_desc', 'updated_at')
     )
     return json.loads(userProjects.to_json())
 
+# Create a new project
 def create_project(user_id, project_title, project_desc):
     project = Project(
             user_id=user_id,
@@ -20,6 +22,7 @@ def create_project(user_id, project_title, project_desc):
             project_desc=project_desc,
             created_at=datetime.datetime.now(),
             updated_at=datetime.datetime.now())
+    
     try:
         project.save()
     except Exception as e:
@@ -27,6 +30,7 @@ def create_project(user_id, project_title, project_desc):
         return None   
     return str(project.id)
 
+# Delete a project
 def delete_project(project_id):
     project = Project.objects(id=project_id).first()
     if project and project.is_deleted == False:
@@ -36,6 +40,7 @@ def delete_project(project_id):
         return True
     return False
 
+# Update a project
 def update_project(project_id, project_title, project_desc, script_id):
     project = Project.objects(id=project_id).first()
     if project and project.is_deleted == False:

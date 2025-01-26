@@ -38,8 +38,8 @@ class ProjectView(APIView):
         if(result is None):
             return Response({"message": "Project creation failed"}, status=500)
         
-        # Returning 200 response with project_id
-        return Response({"message": "Project Created Successfully", "project_id": result}, status=200)
+        # Returning 201 response with project_id
+        return Response({"message": "Project Created Successfully", "project_id": result}, status=201)
     
     def delete(self, request):
         project_id = request.query_params.get('project_id')

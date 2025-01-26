@@ -1,0 +1,59 @@
+{
+    "content": "Two Actors meeting in a room",
+    "scenes": [
+        {
+            "content": "Actor A enters the room",
+            "shots": [
+                {
+                    "image_prompt": "A man in tshirt entering a room with a smile",
+                    "images": [
+                        {
+                            "blob_url": "https://blob_url.com/actor_a_1.jpg"
+                        },
+                        {
+                            "blob_url": "https://blob_url.com/actor_a_2.jpg"
+                        }
+                    ]
+                },
+                {
+                    "image_prompt": "A man in tshirt entering a room with a smile and waving hand",
+                    "images": [
+                        {
+                            "blob_url": "https://blob_url.com/actor_a_3.jpg"
+                        },
+                        {
+                            "blob_url": "https://blob_url.com/actor_a_4.jpg"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "content": "Actor B sitting in a room and looking at Actor A",
+            "shots": [
+                {
+                    "image_prompt": "A woman in a dress sitting on a chair in a room and looking at the door",
+                    "images": [
+                        {
+                            "blob_url": "https://blob_url.com/actor_b_1.jpg"
+                        },
+                        {
+                            "blob_url": "https://blob_url.com/actor_b_2.jpg"
+                        }
+                    ]
+                },
+                {
+                    "image_prompt": "A woman in a dress sitting on a chair in a room and waving at a man entering the room",
+                    "images": [
+                        {
+                            "blob_url": "https://blob_url.com/actor_b_3.jpg"
+                        },
+                        {
+                            "blob_url": "https://blob_url.com/actor_b_4.jpg"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
