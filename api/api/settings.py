@@ -30,6 +30,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DB_CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
 
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "projects",
     "users",
+    "operations",
 ]
 
 MIDDLEWARE = [
