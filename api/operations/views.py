@@ -13,12 +13,13 @@ class OperationView(APIView):
     def post(self, request):
         project_id = request.data.get('project_id')
         operation_name = request.data.get('operation_name')
+        project_idea = request.data.get('project_idea')
 
         print(f"Received request for operation {operation_name} for project {project_id}")
         # Check the operation name and call the appropriate operation
         match operation_name:
             case "generate_script":
-                operation_id = start_generate_script(project_id)
+                operation_id = start_generate_script(project_id, project_idea)
             case _:
                 return Response(
                     {"message": "Unknown operation"},

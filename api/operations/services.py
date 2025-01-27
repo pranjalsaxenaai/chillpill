@@ -2,9 +2,9 @@ from .tasks import generate_script_all
 from celery.result import AsyncResult
 
 
-def start_generate_script(project_id):
+def start_generate_script(project_id, project_idea):
     # Call the Celery task
-    task = generate_script_all.delay(project_id)
+    task = generate_script_all.delay(project_id, project_idea)
 
     return task.id
 
