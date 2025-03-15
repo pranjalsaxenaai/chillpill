@@ -30,5 +30,11 @@ def generate_script_all(project_id, project_idea):
     scenes = generate_scenes(runOutput["Script"])
 
     for scene in scenes:
-        
+        # Save the scene
+        create_scene(scene)
+
+    print("Scenes Created Successfully")
+
+    # Create Shots from the generated scenes
+    # shots = generate_shots(scenes)
 
