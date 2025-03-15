@@ -1,5 +1,6 @@
 from celery import shared_task
 from scripts.aiservices import generate_script
+from scenes.aiservices import generate_scenes
 from scripts.services import create_script
 from projects.services import update_project
 
@@ -22,6 +23,12 @@ def generate_script_all(project_id, project_idea):
     
     if(result):
         print("Project Updated Successfully")
-        return
-    raise Exception("Project Not Found")
+    else:
+        raise Exception("Project Not Found")
+
+    # Create Scenes from the generated script
+    scenes = generate_scenes(runOutput["Script"])
+
+    for scene in scenes:
+        
 

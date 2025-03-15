@@ -18,10 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from projects.views import ProjectView
 from operations.views import OperationView
-from users.views import get_user
+from scripts.views import ScriptView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/projects", ProjectView.as_view()),
     path("api/operations", OperationView.as_view()),
+    path("api/scripts", ScriptView.as_view()),
 ]

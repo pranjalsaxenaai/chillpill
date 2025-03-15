@@ -8,9 +8,11 @@ from projects.services import get_project
 def generate_script(project_id, project_idea):
 
     # Fetch API Key from settings
-    openai_api_key = OPENAI_API_KEY
-    model = ChatOpenAI(api_key=openai_api_key)
-    scriptPromptTemplate = "You are a creative script writer. Write a descriptive script for a short film on below idea:\n\n{idea}"
+    model = ChatOpenAI(api_key=OPENAI_API_KEY)
+    scriptPromptTemplate = """
+    You are a creative script writer. 
+    Write a descriptive script for a short film on below idea:\n\n{idea}
+    """
     scriptTitlePromptTemplate = "Create a 3-5 words title on below idea:\n\n{idea}"
 
     scriptChain = (
