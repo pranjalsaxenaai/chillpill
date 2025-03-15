@@ -2,3 +2,5 @@
 venv/
 **/__pycache__/
 api/.env
+node_modules/
+docs/~*
