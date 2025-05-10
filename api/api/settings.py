@@ -26,15 +26,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
 
-DB_CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING")
+############################################
+# Loaded from .env file using load_dotenv() function of dotenv package
+SECRET_KEY = os.getenv("SECRET_KEY") # Secret key for Django
+DB_CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING") # Connection string for MongoDB
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") # OpenAI API Key
+############################################
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+############################################
+# Celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/1'
+############################################
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -22,7 +22,8 @@
     ```
 3. In first terminal, run 
     ```
-    celery -A api worker --loglevel=info -P solo
+    celery -A api worker --loglevel=info -P solo # For a single thread in one worker
+    celery -A api worker --loglevel=info --concurrency=10 --pool=gevent # For 10 concurrent gevent threads
     ```
     This needs to run first, to start the celery worker for background tasks.
 4. In second terminal, run

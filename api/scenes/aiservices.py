@@ -4,16 +4,14 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from api.settings import OPENAI_API_KEY
 import re
+from utils.prompt_utils import PromptTemplates
 
 
-def generate_scenes(scriptContent):
+def generate_scenes_ai(scriptContent):
     model = ChatOpenAI(api_key=OPENAI_API_KEY)
-    scenesPromptTemplate = """
-    Below is a movie script, please generate various scenes for this script. 
-    Each scene should start with heading ##Scene.\n\n {script}
-    """
+    
     scenesChain = (
-        ChatPromptTemplate.from_template(scenesPromptTemplate)
+        ChatPromptTemplate.from_template(PromptTemplates.ScenesPromptTemplate)
         | model
         | StrOutputParser()
     )

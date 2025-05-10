@@ -1,6 +1,8 @@
 import datetime
 import json
 from scenes.models import Scene
+from scripts.services import get_script
+from scenes.aiservices import generate_scenes_ai
 
 def get_scene(scene_id):
     scriptScene = Scene.objects(id=scene_id, is_deleted__ne=True).first()
@@ -47,3 +49,9 @@ def delete_scene(scene_id):
         scene.save()
         return True
     return False
+
+def generate_scenes(script_id):
+    script = get_script(script_id)
+    scenes = generate_scenes_ai(script["content"])
+    created_scene_ids = [create_scene(script_id, scene) for scene in scenes]
+    return created_scene_ids

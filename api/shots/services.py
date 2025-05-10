@@ -1,6 +1,8 @@
 import datetime
 import json
 from shots.models import Shot
+from scenes.services import get_scene
+from shots.aiservices import generate_shots_ai
 
 def get_shot(shot_id):
     sceneShot = Shot.objects(id=shot_id, is_deleted__ne=True).first()
@@ -50,3 +52,12 @@ def delete_shot(shot_id):
         shot.save()
         return True
     return False
+
+def generate_shots(scene_id):
+    """
+    Generates shots for a given scene and creates them in the system.
+    """
+    scene = get_scene(scene_id)
+    shots = generate_shots_ai(scene["content"])
+    created_shot_ids = [create_shot(scene_id, shot) for shot in shots]
+    return created_shot_ids
