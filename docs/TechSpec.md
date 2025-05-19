@@ -22,4 +22,9 @@ Operations
 Manage Operations like running tasks etc.
 ### Tasks
 Tasks for Cross Script Element operations such as generating Script using Script AI service and saving it in db using Script Service
- 
+
+
+
+# Draw.io Diagram Project 
+https://app.diagrams.net/#G1xslzoI289Rjn3LVbVphtOdrvV7Rhdvk-#%7B%22pageId%22%3A%22_0wMtbdc3ramDyEH5_Cz%22%7D
+

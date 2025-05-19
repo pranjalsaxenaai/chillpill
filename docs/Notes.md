@@ -174,3 +174,32 @@ Efficient use of CPU.
 
 🧠 Think:
 Like taking a token at a busy restaurant and going shopping until your number is called — no time wasted!
+
+# NextJS
+## Create-Next-App tool
+Cmd for this tool
+
+npx create-next-app@latest <appFolderName>
+
+Your app code will be created inside a folder appFolderName
+Prompts while running this tool
+
+You will be prompted to choose the following:
+
+1.TypeScript or JavaScript
+TypeScript: Adds static typing to JavaScript, making the code more robust and maintainable.
+2. ESLint
+ESLint is a tool for identifying and fixing problems in your JavaScript/TypeScript code.
+3. Tailwind CSS
+Tailwind CSS is a utility-first CSS framework that provides pre-built classes for styling components.
+4. src/ directory
+Enabling the src/ directory structure keeps the root directory cleaner and more organized:
+5. Experimental app directory/ App Router
+Next.js 13 introduced a new app/ directory that leverages the latest React Server Components and the new routing system.
+6. Import alias
+Import Alias allows you to define custom paths for imports instead of using relative paths.
+
+## globals.css
+Please read the file inline comments
+This file is used to set some basic settings such as background color, text color, font etc.
+

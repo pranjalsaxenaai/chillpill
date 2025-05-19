@@ -10,7 +10,10 @@
     ```
 4. Run Redis Server
     ```
-    docker run --name redis -p 6379:6379 -d redis
+    docker run --name redis -p 6379:6379 -d redis # This will create a docker container and start it.
+
+    docker start redis # Run an already created container
+
     ```
 
 # How to run

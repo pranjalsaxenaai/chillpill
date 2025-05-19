@@ -3,6 +3,7 @@ import json
 from shots.models import Shot
 from scenes.services import get_scene
 from shots.aiservices import generate_shots_ai
+from utils.db_utils import DBUtils
 
 def get_shot(shot_id):
     sceneShot = Shot.objects(id=shot_id, is_deleted__ne=True).first()
@@ -10,10 +11,9 @@ def get_shot(shot_id):
 
 # List all shots of a scene
 def list_shots(scene_id):
-    sceneShots = (
-        Shot.objects(scene_id=scene_id, is_deleted__ne=True)
-    )
-    return json.loads(sceneShots.to_json())
+    sceneShots = Shot.objects(scene_id=scene_id, is_deleted__ne=True)
+    shots_list = [DBUtils.convert_mongo_id(json.loads(shot.to_json())) for shot in sceneShots]
+    return shots_list
 
 # Create a new scene
 def create_shot(scene_id, image_prompt):

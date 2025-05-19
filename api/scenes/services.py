@@ -3,16 +3,16 @@ import json
 from scenes.models import Scene
 from scripts.services import get_script
 from scenes.aiservices import generate_scenes_ai
+from utils.db_utils import DBUtils
 
 def get_scene(scene_id):
     scriptScene = Scene.objects(id=scene_id, is_deleted__ne=True).first()
     return json.loads(scriptScene.to_json()) if scriptScene else None
 
 def list_scenes(script_id):
-    scriptScenes = (
-        Scene.objects(script_id=script_id, is_deleted__ne=True)
-    )
-    return json.loads(scriptScenes.to_json())
+    scriptScenes = Scene.objects(script_id=script_id, is_deleted__ne=True)
+    scenes_list = [DBUtils.convert_mongo_id(json.loads(scene.to_json())) for scene in scriptScenes]
+    return scenes_list
 
 def create_scene(script_id, content):
     scene = Scene(

@@ -19,10 +19,14 @@ from django.urls import path
 from projects.views import ProjectView
 from operations.views import OperationView
 from scripts.views import ScriptView
+from scenes.views import SceneView
+from shots.views import ShotView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/projects", ProjectView.as_view()),
     path("api/operations", OperationView.as_view()),
     path("api/scripts", ScriptView.as_view()),
+    path("api/scenes", SceneView.as_view()),
+    path("api/shots", ShotView.as_view()),
 ]
