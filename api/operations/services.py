@@ -1,6 +1,6 @@
-from .tasks import ladder_all_task
 from celery.result import AsyncResult
 from projects.services import get_project
+from .tasks import chain_script_tasks
 
 
 def start_generate_script(project_id, project_idea):
@@ -12,8 +12,8 @@ def start_generate_script(project_id, project_idea):
         project_idea = project["project_desc"]
 
     # Call the Celery task
-    task = ladder_all_task.delay(project_id, project_idea)
-    return task.id
+    taskId = chain_script_tasks(project_id, project_idea)
+    return taskId
 
 def check_task_status(task_id):
     # Check the task status

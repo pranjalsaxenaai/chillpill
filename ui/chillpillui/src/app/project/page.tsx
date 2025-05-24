@@ -67,6 +67,7 @@ export default function Home() {
     });
 
     var jsonResponse = await response.json();
+    console.log(`[${new Date().toISOString()}] status: `, jsonResponse.status);
     return jsonResponse.status === "SUCCESS" ? true : false;
   }
 
@@ -104,7 +105,7 @@ export default function Home() {
             onClick= {
               async (setIconState) => {
                 // Disable the input boxes
-                var projectId = await generateProjectElements(projectIdea, projectTitle, setIconState);
+                var projectId = await generateProjectElements(projectTitle, projectIdea, setIconState);
                 console.log("Redirecting to video page with projectId: ", projectId);
 
                 // Save the projectId to session storage

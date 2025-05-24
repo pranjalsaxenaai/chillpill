@@ -5,21 +5,7 @@ from scenes.services import generate_scenes
 from shots.services import generate_shots
 #from images.aiservices import generate_image
 
-@shared_task
-def fanout_shots(scene_ids):
-    """
-    This task dynamically creates a group to generate shots parallelly.
-    
-    Args:
-        scenes (list): A list of scenes for which shots are to be generated.
-
-    Returns:
-        AsyncResult: The result of the group task.
-    """
-    return group(generate_shots_task.s(scene_id) for scene_id in scene_ids).apply_async()
-
-@shared_task
-def ladder_all_task(project_id, project_idea):
+def chain_script_tasks(project_id, project_idea):
     """
     This function orchestrates the entire process of generating a script, scenes, shots, and images.
     
@@ -37,14 +23,25 @@ def ladder_all_task(project_id, project_idea):
     scenes_task = generate_scenes_task.s()
 
     # Step 3: Generate shots from scenes
-    shots_task_group = fanout_shots.s()
+    shots_group = fanout_and_wait.s()
+   
 
-    chain(
+    workflow = chain(
         script_task,
         scenes_task,
-        shots_task_group
-    ).apply_async()
+        shots_group)
 
+    result = workflow.apply_async()
+    return result.id
+
+@shared_task
+def fanout_and_wait(scene_ids):
+    # Launch group and wait for all to finish, then return results
+    result = group(generate_shots_task.s(scene_id) for scene_id in scene_ids)()
+    return result.get() # This will block until all tasks in the group are done
+# Need to modify and use chord instead of group to get the results. 
+# The callback of the chord should set the status of the parent task to success.
+# This status should be maintained in a redis database.
 
 
 @shared_task
@@ -53,7 +50,9 @@ def generate_script_task(project_id, project_idea):
     Generates a script based on the provided project ID and project idea.
     Returns the generated script ID.
     """
-    return generate_script(project_id, project_idea)
+    script_id = generate_script(project_id, project_idea)
+    print(f"Generated script ID: {script_id}")
+    return script_id
 
 @shared_task
 def generate_scenes_task(script_id):
@@ -67,10 +66,13 @@ def generate_scenes_task(script_id):
         list: A list of IDs of the created scenes.
 
     """
-    return generate_scenes(script_id)
+
+    scene_ids = generate_scenes(script_id)
+    print(f"Generated scenes IDs: {scene_ids}")
+    return scene_ids
 
 @shared_task
-def generate_shots_task(scene_id):
+def generate_shots_task(scene_id:str):
     """
     Generates shots for a given scene and creates them in the system.
 
@@ -80,7 +82,9 @@ def generate_shots_task(scene_id):
     Returns:
         list: A list of IDs of the created shots.
     """
-    return generate_shots(scene_id)
+    shot_ids = generate_shots(scene_id)
+    print(f"Generated shots IDs: {shot_ids}, for scene ID: {scene_id}")
+    return shot_ids
 
 # @shared_task
 # def generate_image_task(shot_id):
