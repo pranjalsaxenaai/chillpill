@@ -21,6 +21,7 @@ from operations.views import OperationView
 from scripts.views import ScriptView
 from scenes.views import SceneView
 from shots.views import ShotView
+from images.views import ImageView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     path("api/scripts", ScriptView.as_view()),
     path("api/scenes", SceneView.as_view()),
     path("api/shots", ShotView.as_view()),
+    path("api/images", ImageView.as_view()),
 ]

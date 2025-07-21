@@ -32,6 +32,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY") # Secret key for Django
 DB_CONNECTION_STRING = os.getenv("DB_CONNECTION_STRING") # Connection string for MongoDB
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") # OpenAI API Key
+AZURE_STORAGE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING") # Azure Storage Connection String
 ############################################
 
 

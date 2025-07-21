@@ -45,7 +45,21 @@ async function fetchVideoElements(
           method: "GET",
           cache: "no-cache", // Ensure we get the latest data
         });
-        const shots = await shotsResponse.json();
+        var shots = await shotsResponse.json();
+
+        shots = await Promise.all(
+          shots.map(async (shot: { id: string }) => {
+            /* Fetch imageUrl for each shot */
+            const imageResponse = await fetch(`http://127.0.0.1:8000/api/images?shot_id=${shot.id}`, {
+              method: "GET",
+              cache: "no-cache", // Ensure we get the latest data
+            });
+            const imageData = await imageResponse.json();
+            return {
+              ...shot, imageData: imageData, // Spread the shot object and add imageData
+              };
+          })
+        );
         
         /* Spread the scene object and add shots to it */
         return { ...scene, shots };
@@ -60,6 +74,7 @@ export default function Home() {
   const [scriptContent, setScriptContent] = useState("");
   const [scenes, setScenes] = useState([]);
   const [activeShotText, setActiveShotText] = useState("");
+  const [activeShotImageUrl, setActiveShotImageUrl] = useState("");
 
   useEffect(() => {
     // This code runs only once after the component mounts
@@ -113,14 +128,28 @@ export default function Home() {
           readOnly
           />
           <div className="flex gap-2">
-          {scene.shots.map((shot:{id:string, image_prompt:string}) => (
+            {scene.shots.map((shot: { id: string; image_prompt: string; imageData: { blob_url: string }[] }) => (
             <div
               key={shot.id}
               className="w-15 h-15 relative rounded overflow-hidden border border-gray-200 cursor-pointer"
-              onClick={() => setActiveShotText(shot.image_prompt)}
+              onClick={() => {
+              setActiveShotText(shot.image_prompt);
+              // Use the first imageData's blob_url if available
+              setActiveShotImageUrl(shot.imageData?.[0]?.blob_url || "");
+              }}
             >
+              {/* Optionally show the first image thumbnail */}
+              {shot.imageData?.[0]?.blob_url && (
+              <Image
+                src={shot.imageData[0].blob_url}
+                alt="Shot Thumbnail"
+                width={60}
+                height={60}
+                className="object-cover w-full h-full"
+              />
+              )}
             </div>
-          ))}
+            ))}
           </div>
         </div>
         </details>
@@ -152,6 +181,17 @@ export default function Home() {
         {/* items-center: Center items inside this div vertically */}
         {/* justify-center: Center items inside this div horizontally */}
           <span className="text-gray-400 mb-2 block">Image Preview</span>
+          {/*
+            Show the image only if there is a valid image URL for the active shot.
+            Otherwise, show the placeholder image.
+          */}
+          <Image
+            src={activeShotImageUrl}
+            alt="Image Preview"
+            width={200}
+            height={100}
+            className="rounded-lg object-contain w-full h-full"
+          />
           
           {/* text-gray-400: Gray color for the text */}
         </div>

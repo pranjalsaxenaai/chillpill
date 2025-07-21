@@ -3,7 +3,7 @@ from celery import chain, chord, group
 from scripts.services import generate_script
 from scenes.services import generate_scenes
 from shots.services import generate_shots
-#from images.aiservices import generate_image
+from images.services import generate_images
 
 def chain_script_tasks(project_id, project_idea):
     """
@@ -83,6 +83,10 @@ def generate_shots_task(scene_id:str):
         list: A list of IDs of the created shots.
     """
     shot_ids = generate_shots(scene_id)
+    for shot_id in shot_ids:
+        image_ids = generate_images(shot_id)
+        if len(image_ids) > 0:
+            print(f"Generated imageid {image_ids[0]} for shot ID: {shot_id}")
     print(f"Generated shots IDs: {shot_ids}, for scene ID: {scene_id}")
     return shot_ids
 

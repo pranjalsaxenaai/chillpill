@@ -203,3 +203,39 @@ Import Alias allows you to define custom paths for imports instead of using rela
 Please read the file inline comments
 This file is used to set some basic settings such as background color, text color, font etc.
 
+# Runpod
+## Serverless
+
+### Endpoints
+An endpoint is the access point for your Serverless application. It provides a URL where users or applications can send requests to run your code. Each endpoint can be configured with different compute resources, scaling settings, and other parameters to suit your specific needs.
+
+### Workers
+Workers are the container instances that execute your code when requests arrive at your endpoint. Runpod automatically manages worker lifecycle, starting them when needed and stopping them when idle to optimize resource usage.
+
+Each worker can use one or more GPUs for it's work.
+When a request is received, it waits on queue and workers can pick up requests and work on them using one or more GPUs each.
+
+### Handler functions
+Handler functions are the core of your Serverless application. These functions define how a worker processes incoming requests and returns results. They follow a simple pattern:
+```
+import runpod  # Required
+
+def handler(event):
+    # Extract input data from the request
+    input_data = event["input"]
+    
+    # Process the input (replace this with your own code)
+    result = process_data(input_data)
+    
+    # Return the result
+    return result
+
+runpod.serverless.start({"handler": handler})  # Required
+```
+
+
+# Cloudfare R2 
+boto3 - The AWS Python SDK for AWS S3 storage service which also supports Cloudfare R2
+boto3 code examples for Cloudfare R2
+https://developers.cloudflare.com/r2/examples/aws/boto3/
+
