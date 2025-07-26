@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 // next/image is a built-in component in Next.js for optimized image loading
 // and rendering. It is installed as npm package with Next.js by default.
@@ -12,7 +13,20 @@ export default function Home() {
 
   const [projectIdea, setProjectIdea] = React.useState("");
   const [projectTitle, setProjectTitle] = React.useState("");
+  const { data: session, status } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return; // Wait for session to load
+    if (!session) {
+      router.push("/login"); // Redirect to login if not authenticated
+    }
+  }, [session, status, router]);
+
+  // Optionally, show a loading spinner while checking session
+  if (status === "loading" || !session) {
+    return <div>Loading...</div>;
+  }
 
   async function generateProjectElements(
     projectTitle: string, 
