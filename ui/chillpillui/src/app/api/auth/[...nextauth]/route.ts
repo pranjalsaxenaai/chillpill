@@ -13,6 +13,8 @@
 
 import NextAuth, { SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import type { JWT } from "next-auth/jwt";
+import type { Account, Session } from "next-auth";
 
 export const authoptions = {
   providers: [
@@ -23,6 +25,30 @@ export const authoptions = {
   ],
   session: {
     strategy: "jwt" as SessionStrategy,
+  },
+  callbacks: {
+    /**
+     * jwt() runs:
+     *  - on initial sign in, with `account` populated
+     *  - on subsequent requests, with only `token`
+     */
+    async jwt({ token, account }:{token: JWT, account: Account|null}) {
+      // On first sign in, persist the Google id_token into the JWT
+      console.log("JWT callback called");
+      if (account?.id_token) {
+        token.idToken = account.id_token;
+      }
+      return token;
+    },
+
+    /**
+     * session() runs whenever `getSession()` or `useSession()` is called
+     */
+    async session({ session, token }:{session: Session, token: JWT}) {
+      // Expose `idToken` client-side at session.idToken
+      session.idToken = (token as JWT & { idToken?: string }).idToken;
+      return session;
+    },
   },
 };
 const handler = NextAuth(authoptions);
