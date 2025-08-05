@@ -60,6 +60,7 @@ export default function Home() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${session?.idToken}`, // Use session token for authentication
       },
       body: JSON.stringify({
         project_id: "681796fabbb5d812dc05649e",
@@ -78,6 +79,9 @@ export default function Home() {
     // Call the API to generate project elements
     var response = await fetch(`http://127.0.0.1:8000/api/operations?operation_id=${operationId}`, {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${session?.idToken}`, // Use session token for authentication
+      },
     });
 
     var jsonResponse = await response.json();

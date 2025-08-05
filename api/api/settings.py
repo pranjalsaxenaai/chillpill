@@ -78,6 +78,18 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+# Using GoogleIDTokenAuthentication for authentication
+# All API requests will go through this authentication class
+# permissions.IsAuthenticated - No API Endpoints can be accessed without authentication
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [  # Authentication classes for REST framework
+        'api.utils.auth.GoogleIDTokenAuthentication', # Custom authentication class for Google ID tokens
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [ # Permission classes for REST framework
+        'rest_framework.permissions.IsAuthenticated', # Require authentication for all API endpoints
+    ],
+}
+
 ROOT_URLCONF = "api.urls"
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
