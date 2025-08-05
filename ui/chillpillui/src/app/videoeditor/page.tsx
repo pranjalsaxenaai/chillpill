@@ -3,6 +3,7 @@ import Image from "next/image";
 import ScriptDetailsBox from "@/components/scriptdetailsbox";
 import React, { useState } from "react";
 import { useEffect } from "react";  
+import { useSession } from "next-auth/react";
 
 import Script from "next/script";
 // next/image is a built-in component in Next.js for optimized image loading
@@ -10,12 +11,16 @@ import Script from "next/script";
 
 async function fetchVideoElements(
   projectId: string, 
+  idToken: string|undefined,
   setScriptContent: React.Dispatch<React.SetStateAction<string>>,
   setScenes: React.Dispatch<React.SetStateAction<never[]>>,) {
     
     // Call the APIs to fetch project elements
     var response = await fetch(`http://127.0.0.1:8000/api/projects?project_id=${projectId}`, {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${idToken}`, // Use session token for authentication
+      },
       cache: "no-cache", // Ensure we get the latest data
     });
 
@@ -24,6 +29,9 @@ async function fetchVideoElements(
     
     var response = await fetch(`http://127.0.0.1:8000/api/scripts?script_id=${script_id}`, {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${idToken}`, // Use session token for authentication
+      },
       cache: "no-cache", // Ensure we get the latest data
     });
 
@@ -33,6 +41,9 @@ async function fetchVideoElements(
 
     var response = await fetch(`http://127.0.0.1:8000/api/scenes?script_id=${script_id}`, {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${idToken}`, // Use session token for authentication
+      },
       cache: "no-cache", // Ensure we get the latest data
     });
     var scenes = await response.json();
@@ -43,6 +54,9 @@ async function fetchVideoElements(
         /* Fetch shots for each scene */
         const shotsResponse = await fetch(`http://127.0.0.1:8000/api/shots?scene_id=${scene.id}`, {
           method: "GET",
+          headers: {
+        "Authorization": `Bearer ${idToken}`, // Use session token for authentication
+      },
           cache: "no-cache", // Ensure we get the latest data
         });
         var shots = await shotsResponse.json();
@@ -52,6 +66,9 @@ async function fetchVideoElements(
             /* Fetch imageUrl for each shot */
             const imageResponse = await fetch(`http://127.0.0.1:8000/api/images?shot_id=${shot.id}`, {
               method: "GET",
+              headers: {
+        "Authorization": `Bearer ${idToken}`, // Use session token for authentication
+      },
               cache: "no-cache", // Ensure we get the latest data
             });
             const imageData = await imageResponse.json();
@@ -75,6 +92,8 @@ export default function Home() {
   const [scenes, setScenes] = useState([]);
   const [activeShotText, setActiveShotText] = useState("");
   const [activeShotImageUrl, setActiveShotImageUrl] = useState("");
+  const { data: session, status } = useSession();
+  
 
   useEffect(() => {
     // This code runs only once after the component mounts
@@ -86,7 +105,7 @@ export default function Home() {
   //   fetchVideoElements(projectId, setScriptContent, setScenes);
   // }, 3000);
   
-  fetchVideoElements(projectId, setScriptContent, setScenes);
+  fetchVideoElements(projectId, session?.idToken, setScriptContent, setScenes);
 }, []); // <-- empty array means "run only once"
 
   
