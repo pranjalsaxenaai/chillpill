@@ -96,6 +96,9 @@ export default function Home() {
   
 
   useEffect(() => {
+
+    if (status === "loading" || !session?.idToken) return; // Wait for session to be ready
+    console.log("Session data:", session);
     // This code runs only once after the component mounts
     // Get projectid from session storage
   const projectId = sessionStorage.getItem("projectId")?? "";
@@ -106,7 +109,7 @@ export default function Home() {
   // }, 3000);
   
   fetchVideoElements(projectId, session?.idToken, setScriptContent, setScenes);
-}, []); // <-- empty array means "run only once"
+}, [session, status]); // Depend on session and status
 
   
   return (
