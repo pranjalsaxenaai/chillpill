@@ -19,3 +19,21 @@ cd chillpillui
 npm run dev
 ```
 Visit http://localhost:3000 in your browser.
+
+
+## Checking data in db
+1. Install Mongosh
+2. connect to cluster in powershell 
+```
+ mongosh "mongodb+srv://chillpillcluster.z3rolg2.mongodb.net/" --apiVersion 1 --username <Username>
+```
+3. Input the password when prompted
+4. select the db
+```
+use chillpildb
+```
+5. Fetch collection data like below:
+```
+db.user.find() # Fetch all docs in user collection
+db.users.find({ user_email: "someone@example.com" }) # Fetch docs from user collection based on the provided filter
+```
