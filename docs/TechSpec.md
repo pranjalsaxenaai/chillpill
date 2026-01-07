@@ -33,6 +33,8 @@ We are not using LongTerm memory of LangGraph for storing the data, because this
 
 We can use LongTerm Langgraph memory for conversations but not for data to be presented in a deterministic UI.
 
+Chat - https://chatgpt.com/share/695ea37a-74e0-8008-a124-b606fac4be10
+
 # Role of Langgraph
 Langgraph will be used to create resources but will be stateless.
 Each langgraph run may persist data or memory within a run but this memory will not be used in future.
