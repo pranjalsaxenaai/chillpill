@@ -28,5 +28,10 @@ It is a part of a scene, depicting one moment in the video which consists of:
 6. Within each scene, multiple shots are generated.
 7. For each shot, a text prompt is generated and from that text prompt an image is generated.
 
+# Retrying of resources
+1. Retry creation of script - Will result in re-creation of script, all scenes and all shots within all scenes.
+2. Retry creation of all scenes from the script - Script remains unchanges. ALl scenes and shots are re-created.
+3. Retry creation of all shots in a scene - Script, Scene remains unchanged. All shots in that scene are re-created.
+3. Retry Creation of image from the shot - Script ,scene, shots remain unchanged. the image is re-created.
 
   
