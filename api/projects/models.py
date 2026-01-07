@@ -2,7 +2,7 @@ from mongoengine import Document, fields
 
 # mongoengine model for the project
 class Project(Document):
-    user_id = fields.StringField(required=True)
+    user_email = fields.StringField(required=True)
     project_title = fields.StringField(required=True)
     project_desc = fields.StringField(required=True)
     script_id = fields.StringField(required=False)
