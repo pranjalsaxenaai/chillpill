@@ -1,0 +1,10 @@
+{
+    "dockerfile_lines": [],
+    "graphs": {
+      "kahaaniai": "./graph.py:graph"
+    },
+    "python_version": "3.11",
+    "dependencies": [
+      "."
+    ]
+  }
