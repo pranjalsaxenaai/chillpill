@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
-from typing import Literal, Optional, List, Dict, Any
-
+from typing import List, Optional, Annotated
 from pydantic import BaseModel, Field
 from typing_extensions import TypedDict
-from typing import Annotated
+
+
 
 @dataclass
 class Shot:
@@ -49,17 +49,3 @@ class StoryState(BaseModel):
 
 class ShotGenerationState(TypedDict):
     scene: Scene
-
-class SceneOutput(BaseModel):
-    scene_number: int = Field(description="The sequence number of the scene")
-    scene_description: str = Field(description="A description of the scene")
-
-class ScenesOutput(BaseModel):
-    scenes: List[SceneOutput] = Field(description="A list of scenes in the output")
-
-class ImageOutput(BaseModel):
-    image_number: int = Field(description="The sequence number of the image")
-    image_prompt: str = Field(description="The image generation prompt for the image")
-
-class ImagesOutput(BaseModel):
-    images: List[ImageOutput] = Field(description="A list of images in the output")

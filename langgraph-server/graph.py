@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, END
 from typing import Annotated
 from operator import add
-from contracts import StoryState, Scene
+from contracts.states import StoryState, Scene
 from typing import List
 from nodes import generate_scenes, generate_script, generate_shots
 from edges import fanout_to_shots
