@@ -164,3 +164,15 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Google OAuth Configuration
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_OIDC_AUDIENCE = os.getenv("GOOGLE_OIDC_AUDIENCE")
+
+# Service account allowlist for OAuth2.0 with OIDC
+# Add service account emails that are allowed to access the API
+# Example: {"langgraph-server@project.iam.gserviceaccount.com"}
+
+LANGGRAPH_SERVICE_ACCOUNT_EMAILS = set(
+    e.strip() for e in (os.getenv("LANGGRAPH_SA_EMAILS", "")).split(",") if e.strip()
+)

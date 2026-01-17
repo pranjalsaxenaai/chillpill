@@ -1,4 +1,4 @@
-from contracts import StoryState
+from contracts.states import StoryState
 
 from langgraph.types import Send
 

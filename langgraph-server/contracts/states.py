@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
-from typing import Literal, Optional, List, Dict, Any
-
-from pydantic import BaseModel, Field
+from typing import List, Optional, Annotated
+from pydantic import BaseModel, Field, PrivateAttr
 from typing_extensions import TypedDict
-from typing import Annotated
+from clients.db_api_client.db_api_client import DBAPIClient, db_api_client
+
 
 @dataclass
 class Shot:
@@ -14,6 +14,12 @@ class Scene:
     scene_index: int
     scene_description: str
     shots: List[Shot] = field(default_factory=list)
+
+@dataclass
+class DBMetadata:
+    project_id: str
+    script_id: Optional[str] = None
+
 
 def fill_scenes_by_index_reducer(left: List[Scene], right: List[Scene]) -> List[Scene]:
     """Reducer: merge updated scene from parallel fanout calls by index.
@@ -41,25 +47,22 @@ def fill_scenes_by_index_reducer(left: List[Scene], right: List[Scene]) -> List[
     return sorted(scenes_dict.values(), key=lambda s: s.scene_index)
 
 class StoryState(BaseModel):
-    # Structure Essentials
+    # Story Data
     input_idea: Optional[str] = None
     script: Optional[str] = None
     script_title: Optional[str] = None
     scenes: Annotated[List[Scene], fill_scenes_by_index_reducer] = Field(default_factory=list)
 
+    # DB Metadata
+    db_metadata: DBMetadata = Field(default_factory=DBMetadata)
+
+    # Callable Objects
+    # Making this a PrivateAttr, so that it does not get serialized/deserialized for checkpointing
+    _db_api_client: DBAPIClient = PrivateAttr(default_factory=lambda: db_api_client)
+    
+    @property
+    def db_api_client(self) -> DBAPIClient:
+        return self._db_api_client
+
 class ShotGenerationState(TypedDict):
     scene: Scene
-
-class SceneOutput(BaseModel):
-    scene_number: int = Field(description="The sequence number of the scene")
-    scene_description: str = Field(description="A description of the scene")
-
-class ScenesOutput(BaseModel):
-    scenes: List[SceneOutput] = Field(description="A list of scenes in the output")
-
-class ImageOutput(BaseModel):
-    image_number: int = Field(description="The sequence number of the image")
-    image_prompt: str = Field(description="The image generation prompt for the image")
-
-class ImagesOutput(BaseModel):
-    images: List[ImageOutput] = Field(description="A list of images in the output")
