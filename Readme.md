@@ -16,7 +16,47 @@
 
     ```
 
-# How to run
+#  How to run
+1. Start 3 terminals in chillpill directory
+2. Run venv\scripts\Activate.ps1 in all terminals
+3. In first terminal, run Python Chill Pill API
+    ```
+    cd api
+    py manage.py runserver
+    ```
+    This runs the django API server.
+
+4. In second terminal, run langgraph local server
+    ```
+    cd langgraph-server
+    langgraph dev
+    ```
+    This will run the langgraph server locally on URL http://127.0.0.1:2024
+
+5. In third terminal, run the UI Server
+    ```
+    cd ui\chillpillui
+    npm run dev
+    ```
+    
+
+# How to Test Langgraph
+1. Open 2 Terminals in chillpill directory
+2. Run venv\scripts\Activate.ps1 in all terminals
+3. In first terminal, run Python Chill Pill API, because langraph internally sends requests to ChillPill API for storing data in DB.
+    ```
+    cd api
+    py manage.py runserver
+    ```
+4. In second terminal, run langgraph local server
+    ```
+    cd langgraph-server
+    langgraph dev
+    ```
+    This will run the langgraph server locally on URL http://127.0.0.1:2024
+5. Use experiments\langgraph\langgraph.ipynb for sending calls to the local langgraph server.
+
+# [DEPRECATED] How to run
 1. Start 3 terminals in chillpill directory
 2. Run venv\scripts\Activate.ps1 in all terminals
 3. In All terminals 

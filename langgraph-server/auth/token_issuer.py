@@ -1,3 +1,4 @@
+import asyncio
 import os
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request
@@ -53,7 +54,7 @@ class TokenIssuer:
             print(self._credentials.token)
         return self._credentials
 
-    def get_id_token(self) -> str:
+    async def get_id_token_async(self) -> str:
         """
         Get a fresh ID token from the service account.
 
@@ -67,7 +68,9 @@ class TokenIssuer:
 
         # Refresh the token from google auth server
         # Potential perf improvement: cache the token and its expiry
-        creds.refresh(Request())
+        # Run the blocking operation in a thread pool
+        # This prevents blocking the async event loop
+        await asyncio.to_thread(creds.refresh, Request())
         return creds.token
 
     def __repr__(self) -> str:

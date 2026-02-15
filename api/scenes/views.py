@@ -21,3 +21,15 @@ class SceneView(APIView):
         if(script_id):
             scenes = services.list_scenes(script_id)
             return Response(scenes)
+        
+    def post(self, request):
+        script_id = request.data.get('script_id')
+        scene_data = request.data.get('scene')
+        if not script_id or not scene_data:
+            return Response({"message": "script_id and scene data are required"}, status=400)
+
+        scene = services.create_scene(script_id, scene_data)
+        if scene is None:
+            return Response({"message": "Failed to create scene"}, status=500)
+
+        return Response(scene, status=201)

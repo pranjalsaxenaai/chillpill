@@ -34,6 +34,8 @@ def build_story_graph():
 
     # Add DB Nodes
     g.add_node("store_script", db_nodes.store_script_node)
+    g.add_node("store_scenes", db_nodes.store_scenes_node)
+    g.add_node("store_shots", db_nodes.store_shots_node)
 
     g.add_node("join", lambda state: state)
 
@@ -41,13 +43,14 @@ def build_story_graph():
     g.set_entry_point("generate_script")
     g.add_edge("generate_script", "store_script")
     g.add_edge("store_script", "generate_scenes")
+    g.add_edge("generate_scenes", "store_scenes")
     # Use conditional edges to fanout to generate_shots for each scene
     g.add_conditional_edges(
-        "generate_scenes",
+        "store_scenes",
         fanout_to_shots,
         ["generate_shots"]
     )
-    g.add_edge("generate_shots", "join")
+    g.add_edge("store_shots", "join")
     g.add_edge("join", END)
 
     return g.compile()

@@ -1,5 +1,5 @@
 from celery.result import AsyncResult
-from api.clients import get_langgraph_client
+from clients import get_langgraph_client
 from projects.services import get_project
 from .tasks import chain_script_tasks
 
