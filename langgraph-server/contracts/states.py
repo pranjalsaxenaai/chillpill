@@ -8,11 +8,13 @@ from clients.db_api_client.db_api_client import DBAPIClient, db_api_client
 @dataclass
 class Shot:
     image_prompt: str
+    db_id: Optional[str] = None
 
 @dataclass
 class Scene:
     scene_index: int
     scene_description: str
+    db_id: Optional[str] = None
     shots: List[Shot] = field(default_factory=list)
 
 @dataclass

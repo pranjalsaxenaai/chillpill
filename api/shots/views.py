@@ -21,3 +21,15 @@ class ShotView(APIView):
         if(scene_id):
             shots = services.list_shots(scene_id)
             return Response(shots)
+
+    def post(self, request):
+        scene_id = request.data.get('scene_id')
+        shot_data = request.data.get('shot')
+        if not scene_id or not shot_data:
+            return Response({"message": "scene_id and shot data are required"}, status=400)
+
+        shot = services.create_shot(scene_id, shot_data)
+        if shot is None:
+            return Response({"message": "Failed to create shot"}, status=500)
+
+        return Response(shot, status=201)
